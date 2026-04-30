@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="Sagabai Map" content="A map introducing sightseeing spots in Saga City. Created by local residents, it features exclusive information you won't find anywhere else!">
+    <title>Map | Sagabai Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Noto+Sans+JP:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sawarabi+Mincho&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="./images/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="./images/favicon.svg" />
+    <link rel="shortcut icon" href="./images/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Sagabai" />
+    <link rel="manifest" href="./images/site.webmanifest" />
+    <link rel="stylesheet" href="./css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* CSS to ensure the map fills the available screen space */
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+        .map-container {
+            width: 100%;
+            height: calc(100vh - 150px); /* Adjust height based on header/footer size */
+            border: none;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="page-header wrapper">
+        <h1><a href="en-index.html"><img class="logo" src="./images/logo.png" alt="Sagabai Map"></a></h1>
+        <nav>
+            <ul class="main-nav">
+                <li><a href="en-map.html">Map</a></li>
+                <li><a href="en-about.html">About</a></li>
+                <li><a href="en-contact.html">Contact</a></li>
+                
+                <li>
+                    <div class="lang-switch">
+                        <a href="./map.html" class="lang-btn">JP</a>
+                        <span class="lang-sep">/</span>
+                        <a href="./en-map.html" class="lang-btn active">EN</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+    
+<iframe src="https://www.google.com/maps/d/embed?mid=1IJFgpReEnNcEGq5PtcoxDOoyNRLN27c&ehbc=2E312F&noprof=1" width="100%" height="90%"></iframe>
+
+<footer>
+    <div class="page-footer">
+        <p>&copy; 2026 Sagabai Map All Rights Reserved.</p>
+    </div>
+</footer>
+</body>
+</html>
