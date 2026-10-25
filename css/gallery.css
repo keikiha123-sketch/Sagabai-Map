@@ -1,0 +1,295 @@
+/* ============================================
+   写真ギャラリー
+   index.css の共通カラー・ヘッダー設定を利用する
+   ============================================ */
+
+body {
+    padding-bottom: 48px;
+}
+
+.gallery-page {
+    width: min(1320px, calc(100% - 64px));
+    margin: 38px auto 64px;
+}
+
+/* ページ見出し */
+.gallery-intro {
+    margin: 0 auto 34px;
+    text-align: center;
+}
+
+.gallery-eyebrow {
+    margin: 0 0 8px;
+    color: var(--color-accent);
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+}
+
+.gallery-intro h2 {
+    margin: 0;
+    color: var(--color-text);
+    font-size: clamp(1.6rem, 3.5vw, 2.25rem);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+}
+
+.gallery-intro > p:last-child {
+    margin: 10px 0 0;
+    color: var(--color-text-light);
+    font-size: 0.92rem;
+}
+
+/* 絞り込み欄 */
+.gallery-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.gallery-filter {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.gallery-filter label {
+    color: var(--color-text-light);
+    font-size: 0.88rem;
+    white-space: nowrap;
+}
+
+.gallery-filter select {
+    min-width: 210px;
+    max-width: 100%;
+    padding: 10px 36px 10px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background-color: var(--color-white);
+    color: var(--color-text);
+    font: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.gallery-filter select:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+.gallery-status {
+    margin: 0;
+    color: var(--color-text-light);
+    font-size: 0.84rem;
+    white-space: nowrap;
+}
+
+/* キャプションを表示せず写真だけを並べる */
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.photo-tile {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    padding: 0;
+    border: 0;
+    border-radius: 2px;
+    background: #f0efed;
+    cursor: pointer;
+}
+
+.photo-tile img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 余計な動きは付けず、キーボード操作時のフォーカスだけを明確にする */
+.photo-tile:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 3px;
+}
+
+.photo-tile:disabled {
+    cursor: default;
+}
+
+.photo-tile--error {
+    display: grid;
+    place-items: center;
+    padding: 16px;
+    color: var(--color-text-light);
+    font-size: 0.85rem;
+}
+
+.photo-tile__error-message {
+    text-align: center;
+}
+
+.gallery-empty {
+    margin: 0;
+    padding: 48px 16px;
+    color: var(--color-text-light);
+    font-size: 0.92rem;
+    text-align: center;
+}
+
+.gallery-empty[hidden] {
+    display: none;
+}
+
+/* 写真をクリックしたときの詳細ダイアログ */
+.photo-dialog {
+    position: relative;
+    width: min(920px, calc(100% - 32px));
+    max-width: none;
+    max-height: calc(100dvh - 32px);
+    overflow: auto;
+    padding: 0;
+    border: 0;
+    border-radius: 12px;
+    background: var(--color-white);
+    color: var(--color-text);
+    box-shadow: var(--shadow-medium);
+}
+
+.photo-dialog::backdrop {
+    background: rgba(20, 20, 20, 0.78);
+}
+
+.photo-dialog__inner {
+    position: relative;
+}
+
+.photo-dialog__close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 1;
+    display: grid;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.94);
+    color: #252525;
+    font: inherit;
+    font-size: 1.9rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.photo-dialog__close:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+}
+
+.photo-dialog__image-wrap {
+    display: grid;
+    min-height: 180px;
+    max-height: 72vh;
+    place-items: center;
+    overflow: hidden;
+    background: #161616;
+}
+
+.photo-dialog__image {
+    display: block;
+    width: 100%;
+    max-height: 72vh;
+    object-fit: contain;
+}
+
+.photo-dialog__details {
+    padding: 20px 24px 24px;
+}
+
+.photo-dialog__spot {
+    margin: 0 0 7px;
+    color: var(--color-accent);
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.photo-dialog__caption {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 500;
+    line-height: 1.7;
+}
+
+/* タブレット */
+@media (max-width: 1000px) {
+    .photo-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+    }
+}
+
+/* スマートフォン */
+@media (max-width: 620px) {
+    .gallery-page {
+        width: calc(100% - 28px);
+        margin-top: 26px;
+    }
+
+    .gallery-intro {
+        margin-bottom: 24px;
+    }
+
+    .gallery-intro > p:last-child {
+        font-size: 0.84rem;
+    }
+
+    .gallery-controls {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 12px;
+    }
+
+    .gallery-filter {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 6px;
+        width: 100%;
+    }
+
+    .gallery-filter select {
+        width: 100%;
+    }
+
+    .photo-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 5px;
+    }
+
+    .photo-dialog {
+        width: calc(100% - 20px);
+        max-height: calc(100dvh - 20px);
+        border-radius: 8px;
+    }
+
+    .photo-dialog__image-wrap,
+    .photo-dialog__image {
+        max-height: 62vh;
+    }
+
+    .photo-dialog__details {
+        padding: 16px 18px 20px;
+    }
+}

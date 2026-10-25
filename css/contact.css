@@ -1,0 +1,128 @@
+
+    .contact-page {
+      width: min(100% - 40px, 920px);
+      margin: 0 auto;
+      padding: 48px 0 88px;
+    }
+
+    .contact-hero {
+      margin-bottom: 38px;
+      text-align: center;
+    }
+
+    .contact-eyebrow {
+      margin: 0 0 10px;
+      color: var(--color-accent, #e85a4f);
+      font: 600 0.8rem/1.4 "Fira Sans", sans-serif;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .contact-title {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3.1rem);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      line-height: 1.25;
+    }
+
+    .contact-subtitle {
+      margin: 14px 0 0;
+      color: var(--color-text-light, #666);
+      font-size: 0.98rem;
+      letter-spacing: 0.08em;
+    }
+
+    .contact-intro {
+      max-width: 680px;
+      margin: 0 auto 32px;
+      color: var(--color-text, #2c2c2c);
+      font-size: 0.98rem;
+      line-height: 2;
+    }
+
+    .contact-form-panel {
+      overflow: hidden;
+      border: 1px solid var(--color-border, #e0ddd8);
+      border-radius: var(--radius, 16px);
+      background: var(--color-white, #fff);
+      box-shadow: var(--shadow-soft, 0 4px 20px rgba(0,0,0,.06));
+    }
+
+    .contact-form-heading {
+      margin: 0;
+      padding: 22px 26px;
+      border-bottom: 1px solid var(--color-border, #e0ddd8);
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    .google-form-frame {
+      display: block;
+      width: 100%;
+      min-height: 900px;
+      border: 0;
+      background: #fff;
+    }
+
+    .form-placeholder {
+      padding: 34px 26px 38px;
+      text-align: center;
+    }
+
+    .form-placeholder p {
+      margin: 0 auto 14px;
+      max-width: 620px;
+      line-height: 1.9;
+    }
+
+    .form-placeholder code {
+      display: block;
+      margin: 18px auto;
+      padding: 14px;
+      overflow-wrap: anywhere;
+      border-radius: 8px;
+      background: #f5f5f3;
+      color: #333;
+      text-align: left;
+      font-size: 0.85rem;
+    }
+
+    .form-note {
+      margin: 18px 0 0;
+      color: var(--color-text-light, #666);
+      font-size: 0.86rem;
+      line-height: 1.8;
+    }
+
+    .contact-fallback {
+      margin-top: 20px;
+      color: var(--color-text-light, #666);
+      font-size: 0.9rem;
+      line-height: 1.8;
+      text-align: center;
+    }
+
+    .contact-fallback a {
+      color: inherit;
+      text-underline-offset: 3px;
+    }
+
+    @media (max-width: 600px) {
+      .contact-page {
+        width: min(100% - 28px, 920px);
+        padding-top: 34px;
+      }
+
+      .contact-form-heading {
+        padding: 18px 20px;
+      }
+
+      .google-form-frame {
+        min-height: 1050px;
+      }
+
+      .form-placeholder {
+        padding: 26px 18px;
+      }
+    }

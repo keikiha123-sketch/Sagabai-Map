@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <title>Sagabai-Map</title>
+    <meta name="description" content="佐賀市の観光マップです" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.15.0/dist/maplibre-gl.css" />
+    <script type="module" src="js/main.js" defer></script>
+    <script type="module" src="js/map.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Noto+Sans+JP:wght@100..900&family=RocknRoll+One&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="images/favicons/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="images/favicons/favicon.svg" />
+<link rel="shortcut icon" href="images/favicons/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-title" content="Sagabai-Map" />
+<link rel="manifest" href="images/favicons/site.webmanifest" />
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+  }
+}
+</script>
+</head> 
+<body>
+<header id="site-header">
+    <div class="header-left">
+        <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="menuDropdown">
+            <span class="menu-icon"></span>
+            <span class="menu-label">MENU</span>
+        </button>
+        <nav class="menu-dropdown" id="menuDropdown" hidden>
+            <ul>
+                <li><a href="index.html">マップを見る</a></li>
+                <li><a href="search.html">スポット検索</a></li>
+                <li><a href="gallery.html">写真ギャラリー</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">お問い合わせ</a></li>
+            </ul>
+        </nav>
+    </div>
+    
+    <div class="header-center">
+        <h1 class="main-title">さがばいまっぷ</h1>
+        <p class="sub-main-title">Sagabai-Map</p>
+    </div>
+
+</header>
+<main class="map-section">
+<div id="map"></div>
+</main>
+        <div class="footer-bottom">
+            <p class="footer-copyright">
+                &copy; 2026 Sagabai Map
+            </p>
+        </div>
+</body>
+</html>

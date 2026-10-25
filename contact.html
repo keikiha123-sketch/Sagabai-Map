@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="さがばいまっぷへのお問い合わせページです。" />
+  <title>お問い合わせ | さがばいまっぷ</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/index.css" />
+  <link rel="stylesheet" href="css/contact.css" />
+
+
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&family=RocknRoll+One&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/png" href="images/favicons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="images/favicons/favicon.svg">
+    <link rel="shortcut icon" href="images/favicons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-touch-icon.png">
+  <script type="module" src="js/main.js" defer></script>
+
+</head>
+
+<body>
+    <header id="site-header">
+        <div class="header-left">
+            <button
+                class="menu-btn"
+                id="menuBtn"
+                type="button"
+                aria-expanded="false"
+                aria-controls="menuDropdown"
+            >
+                <span class="menu-icon"></span>
+                <span class="menu-label">MENU</span>
+            </button>
+
+            <nav class="menu-dropdown" id="menuDropdown" hidden>
+                <ul>
+                    <li><a href="index.html">マップを見る</a></li>
+                    <li><a href="search.html">スポット検索</a></li>
+                    <li><a href="gallery.html">写真ギャラリー</a></li>
+                    <li><a href="about.html" aria-current="page">About</a></li>
+                    <li><a href="contact.html">お問い合わせ</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="header-center">
+            <h1 class="main-title">さがばいまっぷ</h1>
+            <p class="sub-main-title">Sagabai-Map</p>
+        </div>
+    </header>
+
+  <main class="contact-page">
+    <section class="contact-hero" aria-labelledby="contact-title">
+      <p class="contact-eyebrow">Contact</p>
+      <h2 class="contact-title" id="contact-title">お問い合わせ</h2>
+      <p class="contact-subtitle">CONTACT SAGABAI MAP</p>
+    </section>
+
+    <p class="contact-intro">
+      さがばいまっぷへのご意見・ご感想、掲載スポットに関する情報、サイトの不具合などがありましたら、下記フォームからお知らせください。
+      いただいた内容を確認し、今後のサイトづくりに活用します。
+    </p>
+
+    <section class="contact-form-panel" aria-labelledby="form-heading">
+      <h3 class="contact-form-heading" id="form-heading">お問い合わせフォーム</h3>
+
+      <!--
+        Googleフォームを埋め込む手順：
+        1. Googleフォームを開く
+        2. 「送信」→「<>（HTMLを埋め込む）」を選ぶ
+        3. 表示された iframe の src URL をコピーする
+        4. 下のコメント部分を削除し、iframe を貼り付ける
+        5. 必要に応じて height の値を調整する
+      -->
+
+      <!-- Googleフォームを設定したら、以下の案内ブロックを iframe に置き換えてください。 -->
+<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdaqQW2PRucXj_G7XFSwwH29LnV6A1uFRmI0APBSQIK-3REFw/viewform?embedded=true" width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
+
+      <!--
+      <iframe
+        class="google-form-frame"
+        src="ここにGoogleフォームの埋め込みURL"
+        title="さがばいまっぷ お問い合わせフォーム"
+        loading="lazy">
+        読み込んでいます…
+      </iframe>
+      -->
+    </section>
+
+    <p class="contact-fallback">
+      フォームが表示されない場合は、Googleフォーム側で公開・回答受付の設定ができているか確認してください。
+    </p>
+  </main>
+          <div class="footer-bottom">
+            <p class="footer-copyright">
+                &copy; 2026 Sagabai Map
+            </p>
+
+        </div>
+</body>
+</html>
