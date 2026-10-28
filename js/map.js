@@ -9,7 +9,9 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { Line2 } from 'three/addons/lines/Line2.js';
 import { LineGeometry } from 'three/addons/lines/LineGeometry.js';
 import { LineMaterial } from 'three/addons/lines/LineMaterial.js';
+
 import { spots } from './spots.js';
+
 export const map = new maplibregl.Map({
     style: 'https://tiles.openfreemap.org/styles/bright',
     center: [130.29882001815872, 33.25991054249502],
@@ -23,26 +25,21 @@ export const map = new maplibregl.Map({
 });
 
 
-
-
 // ========================================
-// 2. クリック判定用の共通変数
+// 1. クリック判定用の共通変数
 // ========================================
 
-// 追加した気球レイヤーを保存する
 const balloonLayers = [];
-
-// 3Dモデルとの交差判定に使う
 const raycaster = new THREE.Raycaster();
-
-// マウスの位置を画面座標から変換して保存する
 const mouse = new THREE.Vector2();
 
-// 現在表示しているポップアップ
 let activePopup = null;
 
 
-// HTMLに表示する文字列を安全に変換する
+// ========================================
+// HTMLエスケープ
+// ========================================
+
 function escapeHtml(value) {
     return String(value).replace(/[&<>"']/g, (character) => {
         const entities = {
@@ -58,14 +55,17 @@ function escapeHtml(value) {
 }
 
 
-// 地図が動き始めたら、クリック位置に表示したポップアップを閉じる
-// 3D気球の位置とポップアップがずれていくのを防ぐ
+// ========================================
+// 地図移動時にポップアップを閉じる
+// ========================================
+
 map.on('movestart', () => {
     if (activePopup) {
         activePopup.remove();
         activePopup = null;
     }
 });
+
 
 // ========================================
 // 気球の布テクスチャを色変更用に変換
@@ -77,7 +77,6 @@ function createNeutralFabricTexture(sourceTexture) {
     const width = image?.width || image?.naturalWidth;
     const height = image?.height || image?.naturalHeight;
 
-    // 画像を取得できなければ元のテクスチャを使う
     if (!image || !width || !height) {
         return sourceTexture;
     }
@@ -100,7 +99,6 @@ function createNeutralFabricTexture(sourceTexture) {
 
     const data = imageData.data;
 
-    // 元画像の平均的な明るさを求める
     let totalLuminance = 0;
     let pixelCount = 0;
 
@@ -119,14 +117,12 @@ function createNeutralFabricTexture(sourceTexture) {
     const averageLuminance =
         pixelCount > 0 ? totalLuminance / pixelCount : 220;
 
-    // 色味を取り除き、明暗の模様を残す
     for (let i = 0; i < data.length; i += 4) {
         const luminance =
             0.2126 * data[i] +
             0.7152 * data[i + 1] +
             0.0722 * data[i + 2];
 
-        // 元の色ではなく、布の凹凸・明暗を残す
         const gray = Math.max(
             160,
             Math.min(
@@ -138,14 +134,12 @@ function createNeutralFabricTexture(sourceTexture) {
         data[i] = gray;
         data[i + 1] = gray;
         data[i + 2] = gray;
-        // data[i + 3] の透明度は変更しない
     }
 
     context.putImageData(imageData, 0, 0);
 
     const texture = new THREE.CanvasTexture(canvas);
 
-    // 元のテクスチャ設定を引き継ぐ
     texture.colorSpace =
         sourceTexture.colorSpace || THREE.SRGBColorSpace;
 
@@ -174,7 +168,6 @@ function createNeutralFabricTexture(sourceTexture) {
 // ========================================
 
 function recolorBalloon(model, color) {
-    // 同じ素材は何度も複製・変換しない
     const materialCache = new Map();
     const textureCache = new Map();
 
@@ -185,11 +178,9 @@ function recolorBalloon(model, color) {
 
         const name = originalMaterial.name || '';
 
-        // 気球の外袋の布素材だけを対象にする
         const isBalloonFabric =
             /balloon fabric|sailcloth/i.test(name);
 
-        // カゴ・ロープ・金属などは変更しない
         if (!isBalloonFabric) {
             return originalMaterial;
         }
@@ -198,7 +189,6 @@ function recolorBalloon(model, color) {
             return materialCache.get(originalMaterial.uuid);
         }
 
-        // 元の素材を複製して、モデルの元データを保護
         const material = originalMaterial.clone();
 
         if (originalMaterial.map) {
@@ -221,7 +211,6 @@ function recolorBalloon(model, color) {
             material.map = neutralTexture;
         }
 
-        // spots で指定した色を適用
         material.color.set(color);
         material.needsUpdate = true;
 
@@ -240,16 +229,14 @@ function recolorBalloon(model, color) {
                 recolorMaterial
             );
         } else {
-            object.material = recolorMaterial(
-                object.material
-            );
+            object.material = recolorMaterial(object.material);
         }
     });
 }
 
 
 // ========================================
-// 3. 気球の読み込みと3Dレイヤーの作成
+// 2. 気球の読み込みと3Dレイヤーの作成
 // ========================================
 
 map.on('load', () => {
@@ -258,7 +245,7 @@ map.on('load', () => {
 
 
     // ------------------------------------
-    // 気球から地面までの縦線を作る
+    // 気球から地面までの縦線
     // ------------------------------------
 
     function createVerticalLine(altitude, size) {
@@ -283,7 +270,7 @@ map.on('load', () => {
 
 
     // ------------------------------------
-    // 気球1つ分のカスタムレイヤーを作る
+    // 気球1つ分のカスタムレイヤー
     // ------------------------------------
 
     function createBalloonLayer(id, origin, altitude, size, color) {
@@ -311,7 +298,6 @@ map.on('load', () => {
             scale: coord.meterInMercatorCoordinateUnits() * size
         };
 
-        // 元の return { ... } を layer 変数に変更
         const layer = {
             id: id,
             type: 'custom',
@@ -360,17 +346,15 @@ map.on('load', () => {
                     './images/hot-air-balloon.glb',
 
                     (gltf) => {
-    // 気球の外袋に spots で指定された色を適用
-    recolorBalloon(gltf.scene, color);
+                        recolorBalloon(gltf.scene, color);
 
-    // クリック判定に使うモデルも保存
-    this.balloonModel = gltf.scene;
-    this.balloonModel.userData.balloonId = id;
+                        this.balloonModel = gltf.scene;
+                        this.balloonModel.userData.balloonId = id;
 
-    this.scene.add(this.balloonModel);
+                        this.scene.add(this.balloonModel);
 
-    this.map.triggerRepaint();
-},
+                        this.map.triggerRepaint();
+                    },
 
                     undefined,
 
@@ -442,7 +426,7 @@ map.on('load', () => {
 
 
     // ========================================
-    // 4. 建物の3Dレイヤーを作る
+    // 3. 建物の3Dレイヤー
     // ========================================
 
     let labelLayerId;
@@ -511,30 +495,29 @@ map.on('load', () => {
 
 
     // ========================================
-    // 5. GeoJSONのデータから気球を追加
+    // 4. GeoJSONのデータから気球を追加
     // ========================================
 
-for (const feature of spots.features) {
-    const properties = feature.properties;
-    const coordinates = feature.geometry.coordinates;
+    for (const feature of spots.features) {
+        const properties = feature.properties;
+        const coordinates = feature.geometry.coordinates;
 
-    const balloonLayer = createBalloonLayer(
-        properties.balloonId,
-        coordinates,
-        properties.altitude,
-        properties.size,
-        properties.color // 気球の色を追加
-    );
+        const balloonLayer = createBalloonLayer(
+            properties.balloonId,
+            coordinates,
+            properties.altitude,
+            properties.size,
+            properties.color
+        );
 
-    // クリック判定用の配列に保存（必要！）
-    balloonLayers.push(balloonLayer);
+        balloonLayers.push(balloonLayer);
 
-    // 地図に気球を追加
-    map.addLayer(balloonLayer);
-}
+        map.addLayer(balloonLayer);
+    }
+
 
     // ========================================
-    // 6. クリック位置に気球があるか調べる
+    // 5. クリック位置に気球があるか調べる
     // ========================================
 
     function pickBalloon(point) {
@@ -547,9 +530,6 @@ for (const feature of spots.features) {
             return null;
         }
 
-        // MapLibreの画面座標をThree.jsのNDC座標に変換
-        // x: -1 ～ +1
-        // y: -1 ～ +1（上下方向を反転）
         mouse.set(
             (point.x / width) * 2 - 1,
             1 - (point.y / height) * 2
@@ -560,7 +540,6 @@ for (const feature of spots.features) {
 
         for (const layer of balloonLayers) {
 
-            // 3Dモデルの読み込みが終わる前は判定しない
             if (
                 !layer.balloonModel ||
                 !layer.camera
@@ -568,13 +547,9 @@ for (const feature of spots.features) {
                 continue;
             }
 
-            // この気球の描画に使った変換行列。
-            // 通常のカメラの投影行列とは異なり、
-            // 地図上の位置・高度・サイズの変換も含んでいる。
             const projectionMatrix =
                 layer.camera.projectionMatrix;
 
-            // 画面座標から気球のローカル座標へ戻す
             const inverseProjectionMatrix =
                 projectionMatrix.clone().invert();
 
@@ -590,7 +565,6 @@ for (const feature of spots.features) {
                 1
             ).applyMatrix4(inverseProjectionMatrix);
 
-            // 画面を貫くレイを作成する
             const direction = farPoint
                 .clone()
                 .sub(nearPoint)
@@ -604,10 +578,8 @@ for (const feature of spots.features) {
             raycaster.near = 0;
             raycaster.far = nearPoint.distanceTo(farPoint);
 
-            // モデルの位置情報を最新にする
             layer.scene.updateMatrixWorld(true);
 
-            // 縦線ではなく、気球の3Dモデルのみを判定
             const intersections = raycaster.intersectObject(
                 layer.balloonModel,
                 true
@@ -617,8 +589,6 @@ for (const feature of spots.features) {
                 continue;
             }
 
-            // 複数の気球に当たったときは、
-            // 画面上で手前にある気球を優先する
             const hit = intersections[0];
 
             const clipPoint = hit.point
@@ -638,7 +608,7 @@ for (const feature of spots.features) {
 
 
     // ========================================
-    // 7. 気球の上でカーソルを変える
+    // 6. 気球の上でカーソルを変える
     // ========================================
 
     map.on('mousemove', (e) => {
@@ -650,15 +620,13 @@ for (const feature of spots.features) {
 
 
     // ========================================
-    // 8. 実際の気球をクリックしたら情報を表示
+    // 7. 気球をクリックしたら観光情報を表示
     // ========================================
 
     map.on('click', (e) => {
 
-        // クリック位置と交差した3D気球を取得
         const balloonLayer = pickBalloon(e.point);
 
-        // 気球がクリックされていなければポップアップを閉じる
         if (!balloonLayer) {
             if (activePopup) {
                 activePopup.remove();
@@ -668,7 +636,6 @@ for (const feature of spots.features) {
             return;
         }
 
-        // クリックされた気球のIDを使って観光情報を検索
         const feature = spots.features.find(
             (feature) =>
                 feature.properties.balloonId === balloonLayer.id
@@ -684,29 +651,26 @@ for (const feature of spots.features) {
 
         const properties = feature.properties;
 
-        // 以前のポップアップがあれば閉じる
         if (activePopup) {
             activePopup.remove();
             activePopup = null;
         }
 
-const html = `
-    <div class="tourism-popup">
-        <h3>${escapeHtml(properties.name)}</h3>
-        <p>${escapeHtml(properties.description)}</p>
+        const html = `
+            <div class="tourism-popup">
+                <h3>${escapeHtml(properties.name)}</h3>
+                <p>${escapeHtml(properties.description)}</p>
 
-        <a
-            href="${escapeHtml(properties.photoPageUrl)}"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            📷 写真を見る
-        </a>
-    </div>
-`;
+                <a
+                    href="${escapeHtml(properties.photoPageUrl)}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    📷 写真を見る
+                </a>
+            </div>
+        `;
 
-        // クリックした画面位置の近くに情報を表示する
-        // 地図を動かしたときは、位置がずれないように閉じる
         const popup = new maplibregl.Popup({
             closeButton: true,
             closeOnClick: false,
@@ -730,7 +694,7 @@ const html = `
 
 
     // ========================================
-    // 9. ロゴコントロール
+    // 8. ロゴコントロール
     // ========================================
 
     map.addControl(
@@ -739,5 +703,58 @@ const html = `
         })
     );
 
-    
+
+    // ========================================
+    // 9. 検索画面から渡されたスポットへ地図を移動
+    // ========================================
+
+    const searchParams = new URLSearchParams(
+        window.location.search
+    );
+
+    const targetSpotId = searchParams.get('spot');
+
+    if (targetSpotId) {
+
+        // spots.js 内の id と URL の spot を照合する
+        const targetFeature = spots.features.find(
+            (feature) =>
+                feature.properties.id === targetSpotId
+        );
+
+        if (!targetFeature) {
+
+            console.warn(
+                '[Search map fly] 該当するスポットが見つかりません:',
+                targetSpotId
+            );
+
+        } else {
+
+            // 移動先の座標 [経度, 緯度]
+            const targetCoordinates =
+                targetFeature.geometry.coordinates;
+
+            // 進行中の移動があれば停止する
+            map.stop();
+
+            // スポットへ滑らかに移動する
+            map.flyTo({
+                center: targetCoordinates,
+                zoom: 17.5,
+                pitch: 60,
+                bearing: map.getBearing(),
+                speed: 0.8,
+                curve: 1.4,
+                essential: true
+            });
+
+            console.info(
+                '[Search map fly] 移動先:',
+                targetFeature.properties.name,
+                targetCoordinates
+            );
+        }
+    }
+
 });
